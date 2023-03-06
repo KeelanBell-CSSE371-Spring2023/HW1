@@ -5,6 +5,8 @@ Spring 2023
 
 **1. In your own words, describe the overall problem the client is attempting to solve.**
 
+In this assignment, the client is asking that we develop a software that helps to "streamline" the process of the Career Fair. That is, allow companies to find students who are more suited to their needs, as well as allowing students the opportunity to have at least one interview at the conclusion on a Career Fair. The main motivation for the client is to find a compromise between companies, who are looking to interview students that better suit their needs as far as interns go, and students, who may be at various levels of networking and communication experience and may need an extra hand in landing an interview.
+
 **2. Categorize quoted statements from the original client statement above into the following cateogires from Leffingwell:**
 
 a. Needs
