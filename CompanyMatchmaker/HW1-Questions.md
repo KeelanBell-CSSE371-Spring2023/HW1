@@ -6,8 +6,11 @@ Spring 2023
 **1. In your own words, describe the overall problem the client is attempting to solve.**
 
 **2. Categorize quoted statements from the original client statement above into the following cateogires from Leffingwell:**
+
 a. Needs
+
 b. Features
+
 c. Software Requirements
 
 **3. What was the most frustrating part of this homework assignment? Provide a professional (not ranting), detaile explanation of the difficulties you faced.**
