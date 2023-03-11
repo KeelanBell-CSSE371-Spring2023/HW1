@@ -1,7 +1,7 @@
 package presentation;
 
 import domain.CompanyInfo;
-import domain.RatingsInfo;
+// import domain.RatingsInfo;
 import domain.StudentInfo;
 import service.MatchmakingService;
 
