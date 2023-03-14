@@ -18,6 +18,6 @@ public class StudentLoadingService {
     }
 
     public LinkedList<StudentInfo> getStudents() {
-        return csvReader.readCSV("data/Students.csv");
+        return csvReader.readCSV("data/StudentsWithStanding.csv");
     }
 }
