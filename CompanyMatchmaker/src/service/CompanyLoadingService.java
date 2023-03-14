@@ -18,6 +18,6 @@ public class CompanyLoadingService {
     }
 
     public LinkedList<CompanyInfo> getCompanies() {
-        return csvReader.readCSV("CompaniesWithStanding.csv");
+        return csvReader.readCSV("data/CompaniesWithStanding.csv");
     }
 }

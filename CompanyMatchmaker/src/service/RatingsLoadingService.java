@@ -18,7 +18,7 @@ public class RatingsLoadingService {
     }
 
     public LinkedList<RatingsInfo> getRatings() {
-        return csvReader.readCSV("SMEs.csv");
+        return csvReader.readCSV("data/SMEs.csv");
     }
 }
 
