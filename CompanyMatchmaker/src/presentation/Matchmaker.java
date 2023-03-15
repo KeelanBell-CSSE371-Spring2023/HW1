@@ -28,9 +28,21 @@ public class Matchmaker {
                 String input = scanner.nextLine().toUpperCase();
                 if (input.equals("M")) {
                     // TODO: Implement comparison here, as well if checking if all necessary CSVs are uploaded.
-                    compareStudentToCompany(companies, students);
+                    // Currently is student to company comparison, add ratings.
+                    System.out.println("Are you sure that all necessary data is uploaded?\n - (Y)es\n - (N)o");
+                    String yesno = scanner.nextLine().toUpperCase();
+                    if (yesno.equals("Y")) {
+                        compareStudentToCompany(companies, students);
+                    }
+                    else if (yesno.equals("N")) {
+                        System.out.println("Please upload your data before matchmaking.");
+                    }
+                    else {
+                        System.out.println("Invalid input. Please try again."); 
+                    }
                 } else if (input.equals("U")) {
-                    // TODO: Code to upload matchmaking data goes here. Unimplemented.
+                    // TODO: Implement the ability to take in 3 different CSVs. Student information, company information, and rating information.
+                    // TODO: Pass those paths for the files to the CompanyLoadingService, StudentLoadingService, and RatingLoadingService, respectively.
                     System.out.println("Functionality to upload data is not yet implemented.");
                 } else if (input.equals("Q")) {
                     System.out.println("Goodbye!");
@@ -38,7 +50,10 @@ public class Matchmaker {
                 } else {
                     System.out.println("Invalid input. Please try again.");
                 }
+                System.out.println("Would you like to do something else?");
+                System.out.println(" - (M)atch Companies\n - (U)pload matchmaking data\n - (Q)uit the program");
             }
+            
         }
 
     }
@@ -48,7 +63,7 @@ public class Matchmaker {
         for (CompanyInfo company : companies) {
             String major = company.getMajors().get(0);
             String classStanding = company.getClassStandingPref();
-            System.out.println("Company: " + company.getName());
+            System.out.println("[Company: " + company.getName() + "]");
             boolean studentsMatched = false;
             Iterator<StudentInfo> iter = students.iterator();
             LinkedList<StudentInfo> matchedStudents = new LinkedList<>();
@@ -108,12 +123,13 @@ public class Matchmaker {
                     System.out.println("  No students available for this major and year.");
                 }
             }
+            System.out.println();
         }
     }
     
     private static void processMatchedStudents(CompanyInfo company, LinkedList<StudentInfo> students) {
         // Do something with the matched students (e.g., interview them)
-        System.out.println("  Interviewing " + students.size() + " students for " + company.getName() + "...");
+        System.out.println("  Matched " + students.size() + " students for " + company.getName() + "...");
     }
             
 }
