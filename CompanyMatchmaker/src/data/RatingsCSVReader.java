@@ -16,17 +16,26 @@ public class RatingsCSVReader implements CSVReader<RatingsInfo> {
         LinkedList<RatingsInfo> ratings = new LinkedList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(filename));
-            String line;
+            String line = br.readLine(); // Skips first line
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
-                String studentName = fields[0];
+                String firstName = fields[0];
+                String lastName = fields[1];
                 Map<String, Integer> requirements = new HashMap<>();
-                for (int i = 1; i < fields.length; i += 2) {
-                    String category = fields[i];
-                    int rating = Integer.parseInt(fields[i+1]);
-                    requirements.put(category, rating);
+                for (int i = 2; i < fields.length - 1; i++) {
+                    if(!fields[i].isEmpty()) {
+                        int rating = Integer.parseInt(fields[i]);
+                        String category = "Category" + (i - 1);
+                        requirements.put(category, rating);
+                    }
+                    else {
+                        int rating = 1; 
+                        String category = "Category" + (i - 1);
+                        requirements.put(category, rating);
+                    }
                 }
-                RatingsInfo ratingInfo = new RatingsInfo(studentName, requirements);
+                String email = fields[fields.length - 1];
+                RatingsInfo ratingInfo = new RatingsInfo(firstName + " " + lastName, requirements, email);
                 ratings.add(ratingInfo);
             }
             br.close();
@@ -37,4 +46,3 @@ public class RatingsCSVReader implements CSVReader<RatingsInfo> {
         return ratings;
     }
 }
-

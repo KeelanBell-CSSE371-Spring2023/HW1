@@ -12,6 +12,11 @@ public class MatchmakingService {
     private StudentLoadingService studentService;
     private RatingsLoadingService ratingsService;
 
+    // Add instance variables to store the data
+    private LinkedList<StudentInfo> students;
+    private LinkedList<CompanyInfo> companies;
+    private LinkedList<RatingsInfo> ratings;
+
     public MatchmakingService() {
         this.companyService = new CompanyLoadingService();
         this.studentService = new StudentLoadingService();
@@ -23,16 +28,32 @@ public class MatchmakingService {
         this.ratingsService = ratingsService;
     }
 
-    public LinkedList<CompanyInfo> getCompanies() {
-        return companyService.getCompanies();
+    public void uploadData(String studentPath, String companyPath, String ratingPath) {
+        // Load data from files using modified loading services
+        students = studentService.getStudents(studentPath);
+        companies = companyService.getCompanies(companyPath);
+        ratings = ratingsService.getRatings(ratingPath);
+
+        // Perform any necessary data validation or processing here
+    
+        // Update existing data with new data
+        studentService.updateStudents(students);
+        companyService.updateCompanies(companies);
+        ratingsService.updateRatings(ratings);
+    }
+    
+    // Add getter methods for the data
+    public LinkedList<StudentInfo> getStudents() {
+        return students;
     }
 
-    public LinkedList<StudentInfo> getStudents() {
-        return studentService.getStudents();
+    public LinkedList<CompanyInfo> getCompanies() {
+        return companies;
     }
 
     public LinkedList<RatingsInfo> getRatings() {
-        return ratingsService.getRatings();
+        return ratings;
     }
+
 }
 

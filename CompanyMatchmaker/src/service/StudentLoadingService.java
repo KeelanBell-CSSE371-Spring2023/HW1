@@ -17,7 +17,13 @@ public class StudentLoadingService {
         this.csvReader = csvReader;
     }
 
-    public LinkedList<StudentInfo> getStudents() {
-        return csvReader.readCSV("data/StudentsWithStanding.csv");
+    public LinkedList<StudentInfo> getStudents(String studentPath) {
+        return csvReader.readCSV(studentPath);
+    }
+
+    public void updateStudents(LinkedList<StudentInfo> students) {
+        // TODO: Update existing data with new data
+        System.out.println("Update functionality not implemented.");
+
     }
 }

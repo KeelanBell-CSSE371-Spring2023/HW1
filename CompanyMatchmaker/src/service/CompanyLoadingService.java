@@ -17,7 +17,12 @@ public class CompanyLoadingService {
         this.csvReader = csvReader;
     }
 
-    public LinkedList<CompanyInfo> getCompanies() {
-        return csvReader.readCSV("data/CompaniesWithStanding.csv");
+    public LinkedList<CompanyInfo> getCompanies(String companyPath) {
+        return csvReader.readCSV(companyPath);
+    }
+
+    public void updateCompanies(LinkedList<CompanyInfo> companies) {
+        // TODO: Update existing data with new data
+        System.out.println("Update functionality not implemented.");
     }
 }

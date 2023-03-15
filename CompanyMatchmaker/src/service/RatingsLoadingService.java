@@ -17,8 +17,13 @@ public class RatingsLoadingService {
         this.csvReader = csvReader;
     }
 
-    public LinkedList<RatingsInfo> getRatings() {
-        return csvReader.readCSV("data/SMEs.csv");
+    public LinkedList<RatingsInfo> getRatings(String ratingPath) {
+        return csvReader.readCSV(ratingPath);
+    }
+
+    public void updateRatings(LinkedList<RatingsInfo> ratings) {
+        // TODO: Update existing data with new data
+        System.out.println("Update functionality not implemented.");
     }
 }
 

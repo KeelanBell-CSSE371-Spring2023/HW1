@@ -1,7 +1,7 @@
 package presentation;
 
 import domain.CompanyInfo;
-// import domain.RatingsInfo;
+import domain.RatingsInfo;
 import domain.StudentInfo;
 import service.MatchmakingService;
 
@@ -12,6 +12,9 @@ import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Matchmaker {
+    private static LinkedList<CompanyInfo> companies = null;
+    private static LinkedList<StudentInfo> students = null;
+    private static LinkedList<RatingsInfo> ratings = null;
 
     public static void main(String[] args) {
         System.out.println("Welcome to the Matchmaking App!");
@@ -19,31 +22,49 @@ public class Matchmaker {
         System.out.println(" - (M)atch Companies\n - (U)pload matchmaking data\n - (Q)uit the program");
         MatchmakingService matchmakingService = new MatchmakingService();
 
-        LinkedList<CompanyInfo> companies = matchmakingService.getCompanies();
-        LinkedList<StudentInfo> students = matchmakingService.getStudents();
-        // LinkedList<RatingsInfo> ratings = matchmakingService.getRatings();
+        // LinkedList<CompanyInfo> companies = matchmakingService.initCompanies();
+        // LinkedList<StudentInfo> students = matchmakingService.initStudents();
+        // LinkedList<RatingsInfo> ratings = matchmakingService.initRatings();
 
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 String input = scanner.nextLine().toUpperCase();
                 if (input.equals("M")) {
-                    // TODO: Implement comparison here, as well if checking if all necessary CSVs are uploaded.
-                    // Currently is student to company comparison, add ratings.
+                    boolean isDataUploaded = (companies != null && students != null && ratings != null);
+                    if (!isDataUploaded) {
+                        System.out.println("Please upload your data before matchmaking. Returning to menu...");
+                        System.out.println("Would you like to do something else?");
+                        System.out.println(" - (M)atch Companies\n - (U)pload matchmaking data\n - (Q)uit the program");
+                        continue;
+                    }
                     System.out.println("Are you sure that all necessary data is uploaded?\n - (Y)es\n - (N)o");
                     String yesno = scanner.nextLine().toUpperCase();
                     if (yesno.equals("Y")) {
-                        compareStudentToCompany(companies, students);
-                    }
-                    else if (yesno.equals("N")) {
-                        System.out.println("Please upload your data before matchmaking.");
-                    }
-                    else {
-                        System.out.println("Invalid input. Please try again."); 
+                        compareStudentToCompany(companies, students, ratings);
+                    } else if (yesno.equals("N")) {
+                        continue;
+                    } else {
+                        System.out.println("Invalid input. Please try again.");
+                        continue;
                     }
                 } else if (input.equals("U")) {
-                    // TODO: Implement the ability to take in 3 different CSVs. Student information, company information, and rating information.
-                    // TODO: Pass those paths for the files to the CompanyLoadingService, StudentLoadingService, and RatingLoadingService, respectively.
-                    System.out.println("Functionality to upload data is not yet implemented.");
+                    System.out.println("Please enter the student data file path (must be to a .csv file):");
+                    String studentPath = scanner.nextLine();
+                    System.out.println("Please enter the company data file path (must be to a .csv file):");
+                    String companyPath = scanner.nextLine();
+                    System.out.println("Please enter the rating data file path (must be to a .csv file):");
+                    String ratingPath = scanner.nextLine();
+
+                    if (studentPath.endsWith(".csv") && companyPath.endsWith(".csv") && ratingPath.endsWith(".csv")) {
+                        matchmakingService.uploadData(studentPath, companyPath, ratingPath);
+                        // Update the LinkedLists
+                        companies = matchmakingService.getCompanies();
+                        students = matchmakingService.getStudents();
+                        ratings = matchmakingService.getRatings();
+                        System.out.println("Data successfully uploaded!");
+                    } else {
+                        System.out.println("Error: Invalid file type selected.");
+                    }
                 } else if (input.equals("Q")) {
                     System.out.println("Goodbye!");
                     System.exit(0);
@@ -53,12 +74,13 @@ public class Matchmaker {
                 System.out.println("Would you like to do something else?");
                 System.out.println(" - (M)atch Companies\n - (U)pload matchmaking data\n - (Q)uit the program");
             }
-            
+
         }
 
     }
 
-    private static void compareStudentToCompany(LinkedList<CompanyInfo> companies, LinkedList<StudentInfo> students) {
+    private static void compareStudentToCompany(LinkedList<CompanyInfo> companies, LinkedList<StudentInfo> students,
+            LinkedList<RatingsInfo> ratings) {
         // Match students to companies by major and year in school
         for (CompanyInfo company : companies) {
             String major = company.getMajors().get(0);
@@ -70,7 +92,8 @@ public class Matchmaker {
             while (iter.hasNext()) {
                 StudentInfo student = iter.next();
                 if (student.getMajor().equals(major) && student.getStanding().equals(classStanding)) {
-                    System.out.println("  Student: " + student.getName() + " (" + student.getMajor() + ", " + student.getStanding() + ")");
+                    System.out.println("  Student: " + student.getName() + " (" + student.getMajor() + ", "
+                            + student.getStanding() + ")");
                     iter.remove();
                     matchedStudents.add(student);
                     if (matchedStudents.size() >= 5) {
@@ -109,7 +132,8 @@ public class Matchmaker {
                         if (matchedCount >= 5) {
                             break;
                         }
-                        System.out.println("  Student: " + student.getName() + " (" + student.getMajor() + ", " + student.getStanding() + ")");
+                        System.out.println("  Student: " + student.getName() + " (" + student.getMajor() + ", "
+                                + student.getStanding() + ")");
                         matchedCount++;
                         matchedStudents.add(student);
                     }
@@ -126,10 +150,10 @@ public class Matchmaker {
             System.out.println();
         }
     }
-    
+
     private static void processMatchedStudents(CompanyInfo company, LinkedList<StudentInfo> students) {
         // Do something with the matched students (e.g., interview them)
         System.out.println("  Matched " + students.size() + " students for " + company.getName() + "...");
     }
-            
+
 }
