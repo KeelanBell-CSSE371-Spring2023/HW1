@@ -22,23 +22,8 @@ public class StudentCSVReader implements CSVReader<StudentInfo> {
                 String major = fields[2];
                 String year = fields[3];
                 String classStanding = fields[4];
-                // At the time of implementing this, I didn't have time to ask the client for a new dataset.
-                // Whoops #lessonslearned
-                // switch (yearCode) {
-                //     case "Y1":
-                //         year = "FR";
-                //         break;
-                //     case "Y2":
-                //         year = "SO";
-                //         break;
-                //     case "Y3":
-                //         year = "JR";
-                //         break;
-                //     default:
-                //         year = "SR";
-                //         break;
-                // }
-                StudentInfo student = new StudentInfo(firstName, lastName, major, year, classStanding);
+                String email = fields[5];
+                StudentInfo student = new StudentInfo(firstName, lastName, major, year, classStanding, email);
                 students.add(student);
             }
             br.close();

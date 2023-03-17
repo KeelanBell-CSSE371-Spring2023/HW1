@@ -5,13 +5,15 @@ public class StudentInfo {
     private String major;
     private String year;
     private String classStanding;
+    private String email;
 
-    public StudentInfo(String firstName, String lastName, String major, String year, String classStanding) {
+    public StudentInfo(String firstName, String lastName, String major, String year, String classStanding, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.major = major;
         this.year = year;
         this.classStanding = classStanding;
+        this.email = email;
     }
 
     public String getMajor() {
@@ -28,6 +30,10 @@ public class StudentInfo {
 
     public String getStanding() {
         return classStanding;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
 }
