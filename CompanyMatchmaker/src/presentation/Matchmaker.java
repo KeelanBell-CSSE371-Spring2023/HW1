@@ -80,7 +80,10 @@ public class Matchmaker {
     private static void compareStudentToCompany(LinkedList<CompanyInfo> companies, LinkedList<StudentInfo> students,
             LinkedList<RatingsInfo> ratings) {
 
-        // Match students to companies by major and year in school
+        // Call the method createStudentRatingsMap using the parameters students and ratings
+        HashMap<String, StudentRatingsInfo> studentRatingsMap = createStudentRatingsMap(students, ratings);
+
+        // Match students to companies by major, year in school, and ratings
         for (CompanyInfo company : companies) {
             String major = company.getMajors().get(0);
             String classStanding = company.getClassStandingPref();
@@ -90,9 +93,20 @@ public class Matchmaker {
             LinkedList<StudentInfo> matchedStudents = new LinkedList<>();
             while (iter.hasNext()) {
                 StudentInfo student = iter.next();
-                if (student.getMajor().equals(major) && student.getStanding().equals(classStanding)) {
+                StudentRatingsInfo studentRatingsInfo = studentRatingsMap.get(student.getEmail());
+                if (student.getMajor().equals(major) && student.getStanding().equals(classStanding) &&
+                        studentRatingsInfo.compareRatings(company.getMinimumRequirements())) {
                     System.out.println("  Student: " + student.getName() + " (" + student.getMajor() + ", "
                             + student.getStanding() + ")");
+                    int[] studentRatings = studentRatingsInfo.getRatings();
+                    System.out.print(" Ratings: [");
+                    for (int i = 0; i < studentRatings.length; i++) {
+                        System.out.print("Category " + (i + 1) + ": " + studentRatings[i]);
+                        if (i < studentRatings.length - 1) {
+                            System.out.print(", ");
+                        }
+                    }
+                    System.out.println("]");
                     iter.remove();
                     matchedStudents.add(student);
                     if (matchedStudents.size() >= 5) {
@@ -155,7 +169,8 @@ public class Matchmaker {
         System.out.println("  Matched " + students.size() + " students for " + company.getName() + "...");
     }
 
-    private static HashMap<String, StudentRatingsInfo> createStudentRatingsMap(LinkedList<StudentInfo> students, LinkedList<RatingsInfo> ratings) {
+    private static HashMap<String, StudentRatingsInfo> createStudentRatingsMap(LinkedList<StudentInfo> students,
+            LinkedList<RatingsInfo> ratings) {
         HashMap<String, StudentRatingsInfo> studentRatingsMap = new HashMap<>();
         for (RatingsInfo rating : ratings) {
             String email = rating.getStudentEmail();
@@ -180,6 +195,5 @@ public class Matchmaker {
         }
         return studentRatingsMap;
     }
-    
 
 }

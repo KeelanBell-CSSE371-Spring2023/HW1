@@ -16,6 +16,10 @@ public class StudentRatingsInfo {
         return student.getEmail();
     }
 
+    public int[] getRatings() {
+        return ratings;
+    }
+
     public int[] addRatings(Map<String, Integer> newRatings) {
         for (Map.Entry<String, Integer> entry : newRatings.entrySet()) {
             String ratingType = entry.getKey();
@@ -28,5 +32,22 @@ public class StudentRatingsInfo {
             }
         } 
         return ratings;       
-    }    
+    }
+
+    public boolean compareRatings(Map<String, Integer> companyRatings) {
+        for (Map.Entry<String, Integer> entry : companyRatings.entrySet()) {
+            String category = entry.getKey();
+            int companyRating = entry.getValue();
+            for (int i = 0; i < 5; i++) {
+                String studentCategory = "Category " + (i + 1);
+                if (category.equals(studentCategory)) {
+                    int studentRating = ratings[i];
+                    if (studentRating < companyRating) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }  
 }
