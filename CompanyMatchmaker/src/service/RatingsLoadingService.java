@@ -22,7 +22,7 @@ public class RatingsLoadingService {
     }
 
     public void updateRatings(LinkedList<RatingsInfo> ratings) {
-        // TODO: Update existing data with new data
+        // Unimplemented: Update existing data with new data
         System.out.println("Update functionality not implemented.");
     }
 }

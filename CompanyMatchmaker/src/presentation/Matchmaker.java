@@ -99,7 +99,7 @@ public class Matchmaker {
                     System.out.println("  Student: " + student.getName() + " (" + student.getMajor() + ", "
                             + student.getStanding() + ")");
                     int[] studentRatings = studentRatingsInfo.getRatings();
-                    System.out.print(" Ratings: [");
+                    System.out.print("  Ratings: [");
                     for (int i = 0; i < studentRatings.length; i++) {
                         System.out.print("Category " + (i + 1) + ": " + studentRatings[i]);
                         if (i < studentRatings.length - 1) {
@@ -147,6 +147,16 @@ public class Matchmaker {
                         }
                         System.out.println("  Student: " + student.getName() + " (" + student.getMajor() + ", "
                                 + student.getStanding() + ")");
+                        StudentRatingsInfo studentRatingsInfo = studentRatingsMap.get(student.getEmail());
+                        int[] studentRatings = studentRatingsInfo.getRatings();
+                        System.out.print("  Ratings: [");
+                        for (int i = 0; i < studentRatings.length; i++) {
+                            System.out.print("Category " + (i + 1) + ": " + studentRatings[i]);
+                            if (i < studentRatings.length - 1) {
+                                System.out.print(", ");
+                            }
+                        }
+                        System.out.println("]");
                         matchedCount++;
                         matchedStudents.add(student);
                     }
@@ -155,7 +165,7 @@ public class Matchmaker {
                         studentsMatched = true;
                         processMatchedStudents(company, matchedStudents);
                     }
-                }
+                }                
                 if (!studentsMatched) {
                     System.out.println("  No students available for this major and year.");
                 }
