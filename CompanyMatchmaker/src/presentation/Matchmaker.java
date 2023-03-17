@@ -3,10 +3,12 @@ package presentation;
 import domain.CompanyInfo;
 import domain.RatingsInfo;
 import domain.StudentInfo;
+import domain.StudentRatingsInfo;
 import service.MatchmakingService;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -19,12 +21,8 @@ public class Matchmaker {
     public static void main(String[] args) {
         System.out.println("Welcome to the Matchmaking App!");
         System.out.println("How can I help you today?");
-        System.out.println(" - (M)atch Companies\n - (U)pload matchmaking data\n - (Q)uit the program");
+        System.out.println(" - (U)pload matchmaking data\n - (M)atch Companies\n - (Q)uit the program");
         MatchmakingService matchmakingService = new MatchmakingService();
-
-        // LinkedList<CompanyInfo> companies = matchmakingService.initCompanies();
-        // LinkedList<StudentInfo> students = matchmakingService.initStudents();
-        // LinkedList<RatingsInfo> ratings = matchmakingService.initRatings();
 
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
@@ -34,7 +32,7 @@ public class Matchmaker {
                     if (!isDataUploaded) {
                         System.out.println("Please upload your data before matchmaking. Returning to menu...");
                         System.out.println("Would you like to do something else?");
-                        System.out.println(" - (M)atch Companies\n - (U)pload matchmaking data\n - (Q)uit the program");
+                        System.out.println(" - (U)pload matchmaking data\n - (M)atch Companies\n - (Q)uit the program");
                         continue;
                     }
                     System.out.println("Are you sure that all necessary data is uploaded?\n - (Y)es\n - (N)o");
@@ -72,7 +70,7 @@ public class Matchmaker {
                     System.out.println("Invalid input. Please try again.");
                 }
                 System.out.println("Would you like to do something else?");
-                System.out.println(" - (M)atch Companies\n - (U)pload matchmaking data\n - (Q)uit the program");
+                System.out.println(" - (U)pload matchmaking data\n - (M)atch Companies\n - (Q)uit the program");
             }
 
         }
@@ -81,6 +79,7 @@ public class Matchmaker {
 
     private static void compareStudentToCompany(LinkedList<CompanyInfo> companies, LinkedList<StudentInfo> students,
             LinkedList<RatingsInfo> ratings) {
+
         // Match students to companies by major and year in school
         for (CompanyInfo company : companies) {
             String major = company.getMajors().get(0);
@@ -155,5 +154,32 @@ public class Matchmaker {
         // Do something with the matched students (e.g., interview them)
         System.out.println("  Matched " + students.size() + " students for " + company.getName() + "...");
     }
+
+    private static HashMap<String, StudentRatingsInfo> createStudentRatingsMap(LinkedList<StudentInfo> students, LinkedList<RatingsInfo> ratings) {
+        HashMap<String, StudentRatingsInfo> studentRatingsMap = new HashMap<>();
+        for (RatingsInfo rating : ratings) {
+            String email = rating.getStudentEmail();
+            if (studentRatingsMap.containsKey(email)) {
+                StudentRatingsInfo studentRatingsInfo = studentRatingsMap.get(email);
+                studentRatingsInfo.addRatings(rating.getRatings());
+            } else {
+                StudentInfo studentInfo = null;
+                for (StudentInfo student : students) {
+                    if (student.getEmail().equals(email)) {
+                        studentInfo = student;
+                        break;
+                    }
+                }
+                if (studentInfo != null) {
+                    StudentRatingsInfo studentRatingsInfo = new StudentRatingsInfo(studentInfo, rating.getRatings());
+                    studentRatingsMap.put(email, studentRatingsInfo);
+                } else {
+                    System.out.println("Could not find student with email " + email);
+                }
+            }
+        }
+        return studentRatingsMap;
+    }
+    
 
 }

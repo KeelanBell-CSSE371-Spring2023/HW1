@@ -33,13 +33,12 @@ public class MatchmakingService {
         students = studentService.getStudents(studentPath);
         companies = companyService.getCompanies(companyPath);
         ratings = ratingsService.getRatings(ratingPath);
-
-        // Perform any necessary data validation or processing here
     
         // Update existing data with new data
-        studentService.updateStudents(students);
-        companyService.updateCompanies(companies);
-        ratingsService.updateRatings(ratings);
+        // Not implemented, not needed for proof of concept.
+        // studentService.updateStudents(students);
+        // companyService.updateCompanies(companies);
+        // ratingsService.updateRatings(ratings);
     }
     
     // Add getter methods for the data
